@@ -39,7 +39,7 @@ class GPUStatMonitor(Thread):
         stats_per_gpu = self.get_average_stats_per_gpu()
 
         for stat in stats_per_gpu:
-            tmp = gpustat.GPUStat({
+            gpu_stat = gpustat.GPUStat({
                 "index": stat[0].index,
                 "uuid": stat[0].uuid,
                 "name": stat[0].name,
@@ -54,8 +54,7 @@ class GPUStatMonitor(Thread):
                 "enforced.power.limit": stat[0].power_limit,
                 "processes": stat[0].processes,
             })
-            print(tmp)
-            pass
+            print(gpu_stat)
 
 
 if __name__ == "__main__":

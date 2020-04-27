@@ -14,6 +14,7 @@ class TFGpuMonitorCallback(tf.keras.callbacks.Callback):
 
     def on_epoch_end(self, epoch, logs=None):
         self.monitor.stop()
+        print("")
         self.monitor.display_average_stats_per_gpu()
 
 
