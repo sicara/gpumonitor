@@ -43,14 +43,16 @@ Add the following callback to your training loop:
 For [TensorFlow](https://www.github.com/tensorflow/tensorflow),
 
 ```python
-callbacks = [gpumonitor.callbacks.TFGpuMonitorCallback(delay=1)]
+from gpumonitor.callbacks.tf import TFGpuMonitorCallback
 
-model.fit(x, y, callbacks=callbacks)
+model.fit(x, y, callbacks=[TFGpuMonitorCallback(delay=0.5)])
 ```
 
 For [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning),
 
 ```python
+from gpumonitor.callbacks.lightning import PyTorchGpuMonitorCallback
+
 trainer = pl.Trainer(callbacks=[PyTorchGpuMonitorCallback(delay=0.5)])
 trainer.fit(model)
 ```
