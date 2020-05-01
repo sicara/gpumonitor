@@ -1,7 +1,8 @@
 # gpumonitor
 
-gpumonitor gives you stats about GPU usage during execution of your scripts and trainings,
-as TensorFlow (or PytorchLightning soon) callbacks.
+`gpumonitor` gives you **stats about GPU** usage during execution of your scripts and trainings,
+as [TensorFlow](https://www.github.com/tensorflow/tensorflow) or 
+[Pytorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) callbacks.
 
 <p align="center">
     <img src="./assets/callbacks.png" width="800" />
@@ -13,7 +14,7 @@ as TensorFlow (or PytorchLightning soon) callbacks.
 Installation can be done directly from this repository:
 
 ```
-pip install https://www.github.com/sicara/gpumonitor
+pip install https://github.com/sicara/gpumonitor/archive/master.zip
 ```
 
 ## Getting started
@@ -39,10 +40,19 @@ monitor.display_average_stats_per_gpu()
 
 Add the following callback to your training loop:
 
+For [TensorFlow](https://www.github.com/tensorflow/tensorflow),
+
 ```python
 callbacks = [gpumonitor.callbacks.TFGpuMonitorCallback(delay=1)]
 
 model.fit(x, y, callbacks=callbacks)
+```
+
+For [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning),
+
+```python
+trainer = pl.Trainer(callbacks=[PyTorchGpuMonitorCallback(delay=0.5)])
+trainer.fit(model)
 ```
 
 
