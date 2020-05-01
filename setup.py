@@ -11,7 +11,7 @@ setup(
     description="GPU Monitoring Callbacks for TensorFlow and PyTorch Lightning",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    author="Raphaël Meudec",
+    author="Raphael Meudec",
     author_email="raphael.meudec@gmail.com",
     url="https://github.com/sicara/gpumonitor",
     license="MIT",
