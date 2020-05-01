@@ -1,5 +1,10 @@
 # gpumonitor
 
+[![Pypi Version](https://img.shields.io/pypi/v/gpumonitor.svg)](https://pypi.org/project/gpumonitor/)
+![Licence](https://img.shields.io/pypi/l/gpumonitor)
+![Frameworks](https://img.shields.io/badge/Frameworks-PyTorchLightning%20|%20TensorFlow-blue.svg)
+
+
 `gpumonitor` gives you **stats about GPU** usage during execution of your scripts and trainings,
 as [TensorFlow](https://www.github.com/tensorflow/tensorflow) or 
 [Pytorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) callbacks.
