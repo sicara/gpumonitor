@@ -10,7 +10,7 @@ from torch.nn import functional as F
 from torchvision.datasets import MNIST
 from torchvision import transforms
 
-from gpumonitor.callbacks import PyTorchGpuMonitorCallback
+from gpumonitor.callbacks.lightning import PyTorchGpuMonitorCallback
 
 
 class LightningMNISTClassifier(pl.LightningModule):

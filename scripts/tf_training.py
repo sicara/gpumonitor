@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 
-from gpumonitor.callbacks import TFGpuMonitorCallback
+from gpumonitor.callbacks.tf import TFGpuMonitorCallback
 
 (x_train, y_train), _ = tf.keras.datasets.mnist.load_data()
 x_train = np.expand_dims(x_train, axis=-1) / 255.
