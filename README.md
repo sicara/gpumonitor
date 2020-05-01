@@ -18,6 +18,11 @@ pip install https://www.github.com/sicara/gpumonitor
 
 ## Getting started
 
+
+<p align="center">
+    <img src="./assets/gpumonitor.gif" width="800" />
+</p>
+
 ### Option 1: In your scripts
 
 ```python
