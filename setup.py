@@ -18,7 +18,6 @@ setup(
     install_requires=["gpustat>=0.6.0"],
     extras_require={
         "publish": ["bumpversion>=0.5.3", "twine>=1.13.0"],
-        "docs": ["sphinx>=2.1.2", "sphinx-rtd-theme>=0.4.3"],
     },
     packages=find_packages(),
     python_requires=">=3.6",
