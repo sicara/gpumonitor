@@ -4,7 +4,7 @@ gpumonitor gives you stats about GPU usage during execution of your scripts and 
 as TensorFlow (or PytorchLightning soon) callbacks.
 
 <p align="center">
-    <img src="./assets/callbacks.png" width="600" />
+    <img src="./assets/callbacks.png" width="800" />
 </p>
 
 
