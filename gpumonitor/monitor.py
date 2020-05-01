@@ -37,7 +37,7 @@ class GPUStatMonitor(Thread):
         for gpu_index in range(number_of_gpus):
             stats_per_gpu_over_time.append([stats[gpu_index] for stats in self.stats])
 
-        average_stats_per_gpu = [
+        average_stats_per_gpu = gpustat.GPUStatCollection([
             gpustat.GPUStat({
                 "index": gpu_stat_over_time[0].index,
                 "uuid": gpu_stat_over_time[0].uuid,
@@ -54,16 +54,15 @@ class GPUStatMonitor(Thread):
                 "processes": gpu_stat_over_time[0].processes,
             })
             for gpu_stat_over_time in stats_per_gpu_over_time
-        ]
+        ])
 
         return average_stats_per_gpu
 
 
     def display_average_stats_per_gpu(self):
-        average_stats_per_gpu = self.get_average_stats_per_gpu()
+        average_stats_per_gpu_collection = self.get_average_stats_per_gpu()
+        print(average_stats_per_gpu_collection)
 
-        for gpu_stat in average_stats_per_gpu:
-            print(gpu_stat)
 
 
 if __name__ == "__main__":
