@@ -14,11 +14,16 @@ class GPUStatMonitor(Thread):
         self.start()
 
     def run(self):
+        """
+        Runs `gpustat` query every `delay` to parse information from nvidia-smi
+        until GPUStatMonitor.stop() is called.
+        """
         while not self.stopped:
             self.stats.append(gpustat.GPUStatCollection.new_query())
             time.sleep(self.delay)
 
     def stop(self):
+        """Stop the recording of information from nvidia-smi runs"""
         self.stopped = True
         return self.stats
 
@@ -28,32 +33,36 @@ class GPUStatMonitor(Thread):
             return None
 
         number_of_gpus = len(self.stats[0])
-        stats_per_gpu = []
+        stats_per_gpu_over_time = []
         for gpu_index in range(number_of_gpus):
-            stats_per_gpu.append([stats[gpu_index] for stats in self.stats])
+            stats_per_gpu_over_time.append([stats[gpu_index] for stats in self.stats])
 
-        return stats_per_gpu
+        average_stats_per_gpu = [
+            gpustat.GPUStat({
+                "index": gpu_stat_over_time[0].index,
+                "uuid": gpu_stat_over_time[0].uuid,
+                "name": gpu_stat_over_time[0].name,
+                "memory.total": gpu_stat_over_time[0].memory_total,
+                "memory.used": np.mean([element.memory_used for element in gpu_stat_over_time]),
+                "memory_free": np.mean([element.memory_free for element in gpu_stat_over_time]),
+                "memory_available": np.mean([element.memory_available for element in gpu_stat_over_time]),
+                "temperature.gpu": np.mean([element.temperature for element in gpu_stat_over_time]),
+                "fan.speed": np.mean([element.fan_speed for element in gpu_stat_over_time]),
+                "utilization.gpu": np.mean([element.utilization for element in gpu_stat_over_time]),
+                "power.draw": np.mean([element.power_draw for element in gpu_stat_over_time]),
+                "enforced.power.limit": gpu_stat_over_time[0].power_limit,
+                "processes": gpu_stat_over_time[0].processes,
+            })
+            for gpu_stat_over_time in stats_per_gpu_over_time
+        ]
+
+        return average_stats_per_gpu
 
 
     def display_average_stats_per_gpu(self):
-        stats_per_gpu = self.get_average_stats_per_gpu()
+        average_stats_per_gpu = self.get_average_stats_per_gpu()
 
-        for stat in stats_per_gpu:
-            gpu_stat = gpustat.GPUStat({
-                "index": stat[0].index,
-                "uuid": stat[0].uuid,
-                "name": stat[0].name,
-                "memory.total": stat[0].memory_total,
-                "memory.used": np.mean([element.memory_used for element in stat]),
-                "memory_free": np.mean([element.memory_free for element in stat]),
-                "memory_available": np.mean([element.memory_available for element in stat]),
-                "temperature.gpu": np.mean([element.temperature for element in stat]),
-                "fan.speed": np.mean([element.fan_speed for element in stat]),
-                "utilization.gpu": np.mean([element.utilization for element in stat]),
-                "power.draw": np.mean([element.power_draw for element in stat]),
-                "enforced.power.limit": stat[0].power_limit,
-                "processes": stat[0].processes,
-            })
+        for gpu_stat in average_stats_per_gpu:
             print(gpu_stat)
 
 
