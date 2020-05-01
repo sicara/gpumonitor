@@ -20,7 +20,7 @@ pip install https://www.github.com/sicara/gpumonitor
 
 
 <p align="center">
-    <img src="./assets/gpumonitor.gif" width="800" />
+    <img src="./assets/gpumonitor.gif" width="1000" />
 </p>
 
 ### Option 1: In your scripts
