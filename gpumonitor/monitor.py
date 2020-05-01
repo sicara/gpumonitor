@@ -28,6 +28,11 @@ class GPUStatMonitor(Thread):
         return self.stats
 
     def get_average_stats_per_gpu(self):
+        """
+        Build an average statistics of all nvidia-smi records.
+
+        :return: a gpustat.GPUStatCollection with aggregated values
+        """
         is_stats_empty = len(self.stats) == 0
         if is_stats_empty:
             return None
@@ -42,14 +47,14 @@ class GPUStatMonitor(Thread):
                 "index": gpu_stat_over_time[0].index,
                 "uuid": gpu_stat_over_time[0].uuid,
                 "name": gpu_stat_over_time[0].name,
-                "memory.total": gpu_stat_over_time[0].memory_total,
-                "memory.used": np.mean([element.memory_used for element in gpu_stat_over_time]),
-                "memory_free": np.mean([element.memory_free for element in gpu_stat_over_time]),
-                "memory_available": np.mean([element.memory_available for element in gpu_stat_over_time]),
-                "temperature.gpu": np.mean([element.temperature for element in gpu_stat_over_time]),
+                "memory.total": int(gpu_stat_over_time[0].memory_total),
+                "memory.used": int(np.mean([element.memory_used for element in gpu_stat_over_time])),
+                "memory_free": int(np.mean([element.memory_free for element in gpu_stat_over_time])),
+                "memory_available": int(np.mean([element.memory_available for element in gpu_stat_over_time])),
+                "temperature.gpu": int(np.mean([element.temperature for element in gpu_stat_over_time])),
                 "fan.speed": np.mean([element.fan_speed for element in gpu_stat_over_time]),
                 "utilization.gpu": np.mean([element.utilization for element in gpu_stat_over_time]),
-                "power.draw": np.mean([element.power_draw for element in gpu_stat_over_time]),
+                "power.draw": int(np.mean([element.power_draw for element in gpu_stat_over_time])),
                 "enforced.power.limit": gpu_stat_over_time[0].power_limit,
                 "processes": gpu_stat_over_time[0].processes,
             })
