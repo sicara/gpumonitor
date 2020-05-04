@@ -19,7 +19,7 @@ as [TensorFlow](https://www.github.com/tensorflow/tensorflow) or
 Installation can be done directly from this repository:
 
 ```
-pip install https://github.com/sicara/gpumonitor/archive/master.zip
+pip install gpumonitor
 ```
 
 ## Getting started
