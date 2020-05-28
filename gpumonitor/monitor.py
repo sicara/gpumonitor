@@ -11,7 +11,45 @@ class GPUStatMonitor(Thread):
         self.stopped = False
         self.delay = delay  # Time between calls to GPUtil
         self.stats = []
+
+        self.average_stats = None
+        self.total_number_of_entries = 0
+
         self.start()
+
+    def get_updated_average_value(self, entry, average_stat, attribute_name):
+        return (getattr(average_stat, attribute_name) * (self.total_number_of_entries - 1) + getattr(entry, attribute_name)) / self.total_number_of_entries
+
+    def add_entry_to_average_stats(self, entry):
+        self.total_number_of_entries += 1
+
+        if self.total_number_of_entries == 1:
+            # Initializing self.average_stats
+            self.average_stats = entry
+            return self.average_stats
+
+        for gpu_index, gpu_stat in enumerate(entry):
+            gpu_average_stats = self.average_stats[gpu_index]
+
+            updated_gpu_average_stats = gpustat.GPUStat({
+                "index": gpu_average_stats.index,
+                "uuid": gpu_average_stats.uuid,
+                "name": gpu_average_stats.name,
+                "memory.total": int(gpu_average_stats.memory_total),
+                "memory.used": int(self.get_updated_average_value(entry, gpu_average_stats, "memory_used")),
+                "memory_free": int(self.get_updated_average_value(entry, gpu_average_stats, "memory_free")),
+                "memory_available": int(self.get_updated_average_value(entry, gpu_average_stats, "memory_available")),
+                "temperature.gpu": int(self.get_updated_average_value(entry, gpu_average_stats, "temperature")),
+                "fan.speed": int(self.get_updated_average_value(entry, gpu_average_stats, "fan_speed")),
+                "utilization.gpu": int(self.get_updated_average_value(entry, gpu_average_stats, "utilization")),
+                "power.draw": int(self.get_updated_average_value(entry, gpu_average_stats, "power_draw")),
+                "enforced.power.limit": gpu_average_stats.power_limit,
+                "processes": gpu_average_stats.processes,
+            })
+
+            self.average_stats[gpu_index] = updated_gpu_average_stats
+
+        return self.average_stats
 
     def run(self):
         """
@@ -19,7 +57,11 @@ class GPUStatMonitor(Thread):
         until GPUStatMonitor.stop() is called.
         """
         while not self.stopped:
-            self.stats.append(gpustat.GPUStatCollection.new_query())
+            entry = gpustat.GPUStatCollection.new_query()
+
+            self.add_entry_to_average_stats(entry)
+
+            self.stats.append(stats)
             time.sleep(self.delay)
 
     def stop(self):
@@ -67,6 +109,7 @@ class GPUStatMonitor(Thread):
     def display_average_stats_per_gpu(self):
         average_stats_per_gpu_collection = self.get_average_stats_per_gpu()
         print(average_stats_per_gpu_collection)
+        print(self.average_stats)
 
 
 
