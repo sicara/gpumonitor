@@ -2,7 +2,6 @@ import time
 from threading import Thread
 
 import gpustat
-import numpy as np
 
 
 class GPUStatMonitor(Thread):
@@ -11,9 +10,7 @@ class GPUStatMonitor(Thread):
         self.stopped = False
         self.delay = delay  # Time between calls to GPUtil
 
-        self.average_stats = None
-        self.total_number_of_entries = 0
-
+        self.reset()
         self.start()
 
     def get_updated_average_value(self, gpu_stat, average_stat, attribute_name):
@@ -107,6 +104,11 @@ class GPUStatMonitor(Thread):
         """Stop the recording of information from nvidia-smi runs"""
         self.stopped = True
         return self.average_stats
+
+    def reset(self):
+        """Reset the stats average"""
+        self.average_stats = None
+        self.total_number_of_entries = 0
 
     def display_average_stats_per_gpu(self):
         print(self.average_stats)
