@@ -41,6 +41,23 @@ monitor.stop()
 monitor.display_average_stats_per_gpu()
 ```
 
+It keeps track of the average of GPU statistics. To reset the average and start from fresh, you can also reset the monitor:
+
+```python
+monitor = gpumonitor.GPUStatMonitor(delay=1)
+
+# Your instructions here
+# [...]
+
+monitor.display_average_stats_per_gpu()
+monitor.reset()
+
+# Some other instructions
+# [...]
+
+monitor.display_average_stats_per_gpu()
+```
+
 ### Option 2: Callbacks
 
 Add the following callback to your training loop:
