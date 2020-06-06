@@ -4,7 +4,7 @@ from gpumonitor.monitor import GPUStatMonitor
 
 
 class TFGpuMonitorCallback(tf.keras.callbacks.Callback):
-    def __init__(self, delay):
+    def __init__(self, delay=1):
         super(TFGpuMonitorCallback, self).__init__()
         self.delay = delay
 
