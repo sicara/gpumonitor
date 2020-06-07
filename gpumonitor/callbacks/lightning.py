@@ -4,7 +4,7 @@ from gpumonitor.monitor import GPUStatMonitor
 
 
 class PyTorchGpuMonitorCallback(pl.callbacks.base.Callback):
-    def __init__(self, delay):
+    def __init__(self, delay=1):
         super(PyTorchGpuMonitorCallback, self).__init__()
         self.delay = delay
 

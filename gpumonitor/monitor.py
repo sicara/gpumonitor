@@ -5,7 +5,7 @@ import gpustat
 
 
 class GPUStatMonitor(Thread):
-    def __init__(self, delay):
+    def __init__(self, delay=1):
         super(GPUStatMonitor, self).__init__()
         self.stopped = False
         self.delay = delay  # Time between calls to GPUtil
