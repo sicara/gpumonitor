@@ -95,7 +95,7 @@ class GPUStatMonitor(Thread):
         until GPUStatMonitor.stop() is called.
         """
         while not self.stopped:
-            entry = gpustat.GPUStatCollection.new_query()
+            entry = gpustat.new_query()
             self.add_entry_to_average_stats(entry)
 
             time.sleep(self.delay)
