@@ -79,6 +79,13 @@ trainer = pl.Trainer(callbacks=[PyTorchGpuMonitorCallback(delay=0.5)])
 trainer.fit(model)
 ```
 
+## Display Format
+
+You can customize the display format according to the `gpustat` options. For example, display of watts consumption,
+fan speed are available. To know which options you can change, refer to:
+
+- [TensorFlow callback example](https://github.com/sicara/gpumonitor/blob/42237f423254e8fc7ae21e8f2811533a4264064d/scripts/tf_training.py#L16)
+- [`gpustat print_to()` docstring](https://github.com/wookayin/gpustat/blob/aba85f8eba9f7861022eb3dcc06ff771b451b3e1/gpustat/core.py#L178)
 
 ## Sources
 

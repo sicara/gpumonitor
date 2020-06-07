@@ -13,4 +13,16 @@ model = tf.keras.Sequential([
 ])
 model.compile(optimizer="adam", loss="categorical_crossentropy")
 
-model.fit(x_train, y_train, callbacks=[TFGpuMonitorCallback(0.5)])
+model.fit(x_train, y_train, callbacks=[
+    TFGpuMonitorCallback(
+        0.5,
+        {
+            "show_cmd": True,
+            "show_user": True,
+            "show_pid": False,
+            "show_power": True,
+            "show_fan_speed": True,
+            "gpuname_width": 16,
+        }
+    )
+])
