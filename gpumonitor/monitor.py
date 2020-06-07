@@ -2,13 +2,15 @@ import time
 from threading import Thread
 
 import gpustat
+from six.moves import cStringIO as StringIO
 
 
 class GPUStatMonitor(Thread):
-    def __init__(self, delay=1):
+    def __init__(self, delay=1, display_options=None):
         super(GPUStatMonitor, self).__init__()
         self.stopped = False
         self.delay = delay  # Time between calls to GPUtil
+        self.display_options = display_options if display_options else {}
 
         self.reset()
         self.start()
@@ -111,7 +113,11 @@ class GPUStatMonitor(Thread):
         self.total_number_of_entries = 0
 
     def display_average_stats_per_gpu(self):
-        print(self.average_stats)
+        for average_stats_for_gpu in self.average_stats:
+            print(average_stats_for_gpu.print_to(**{
+                **{"fp": StringIO()},
+                **self.display_options
+            }).getvalue())
 
 
 if __name__ == "__main__":
