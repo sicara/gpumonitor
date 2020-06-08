@@ -7,7 +7,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="gpumonitor",
-    version="0.1.1",
+    version="0.1.2",
     description="GPU Monitoring Callbacks for TensorFlow and PyTorch Lightning",
     long_description=long_description,
     long_description_content_type="text/markdown",
